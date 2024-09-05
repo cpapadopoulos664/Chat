@@ -2,6 +2,7 @@
 using Firebase.Auth;
 using Microsoft.Extensions.Logging;
 using Chat.Views;
+using Firebase.Database;
 
 namespace Chat
 {
@@ -30,6 +31,8 @@ namespace Chat
             }));
             builder.Services.AddTransient<SignUp>();
             builder.Services.AddTransient<SignIn>();
+            builder.Services.AddSingleton(new FirebaseClient("https://mobileapp-1556e-default-rtdb.europe-west1.firebasedatabase.app/"));
+            builder.Services.AddSingleton<GroupChat>();
             return builder.Build();
         }
     }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Chat.Views.GroupChat"
+             Title="GroupChat">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Entry x:Name="Name" Placeholder=" enter val 1"/>
+            <Entry x:Name="Text" Placeholder=" enter val 2"/>
+            <Button
+                x:Name="Send"
+                Text="Send" 
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnSend"
+                HorizontalOptions="Fill" />
+            <CollectionView ItemsSource="{Binding Messages}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnSpacing="10" Padding="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label 
+                     Grid.Column="1" 
+                     Grid.Row="0" 
+                     FontAttributes="Bold" 
+                     FontSize = "20"
+                      Padding="5"
+                      Text="{Binding Name}" />
+
+                            <Label Grid.Row="1" 
+                        Grid.Column="1" 
+                        Text="{Binding Text}" />
+
+                        </Grid>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

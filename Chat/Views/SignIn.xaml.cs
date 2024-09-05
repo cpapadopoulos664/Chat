@@ -27,6 +27,7 @@ public partial class SignIn : ContentPage
                 var user = await _authClient.SignInWithEmailAndPasswordAsync(email, password);
                 StatusLabel.TextColor = Colors.Green;
                 StatusLabel.Text = "Sign in successful!";
+                await Shell.Current.GoToAsync(nameof(GroupChat));
                 // Handle successful sign-in (e.g., navigate to another page)
             }
             catch (Exception ex)
