@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Chat.Views.SignUp"
+             Title="SignUp">
+    <StackLayout Padding="20" VerticalOptions="Center">
+
+        <!-- Username for Sign Up -->
+        <Label Text="Username" FontSize="Medium"/>
+        <Entry x:Name="UsernameEntry" Placeholder="Enter your username" />
+
+        <!-- Email for Sign Up/Sign In -->
+        <Label Text="Email" FontSize="Medium" Margin="0,10,0,0"/>
+        <Entry x:Name="EmailEntry" Placeholder="Enter your email" Keyboard="Email" />
+
+        <!-- Password for Sign Up/Sign In -->
+        <Label Text="Password" FontSize="Medium" Margin="0,10,0,0"/>
+        <Entry x:Name="PasswordEntry" Placeholder="Enter your password" IsPassword="True" />
+
+        <!-- Sign Up Button -->
+        <Button Text="Sign Up" 
+                Margin="0,20,0,0" 
+                BackgroundColor="#007BFF"
+                TextColor="White"
+                Clicked="OnSignUpButtonClicked"/>
+        <!-- Back Button -->
+        <Button Text="Back" 
+                Margin="0,20,0,0" 
+                BackgroundColor="#007BFF"
+                TextColor="White"
+                Clicked="OnBackButtonClicked"/>
+
+        <!-- Status Label for Sign Up/Sign In -->
+        <Label x:Name="StatusLabel" 
+               TextColor="Red"
+               FontSize="Small"
+               Margin="0,10,0,0"/>
+
+    </StackLayout>
+</ContentPage>
