@@ -1,14 +1,23 @@
 namespace Chat.Views;
+using Chat.Models;
 using Firebase.Auth;
-
+using Firebase.Database;
+using Firebase.Database.Query;
+using System.Collections.ObjectModel;
+using static System.Net.Mime.MediaTypeNames;
+using User = Models.User;
 
 public partial class SignUp : ContentPage
 {
     private readonly FirebaseAuthClient _authClient;
-    public SignUp(FirebaseAuthClient authClient)
+    private readonly FirebaseClient _firebaseClient;
+    public List <User> Usernames { get; set; } = new List <User> ();    
+    public SignUp(FirebaseAuthClient authClient, FirebaseClient firebaseClient)
 	{
         InitializeComponent();
         _authClient = authClient;
+        _firebaseClient = firebaseClient; // create and asighn
+        BindingContext = this;// dese me to ui 
 
     }
     private async void OnSignUpButtonClicked(object sender, EventArgs e)
@@ -25,10 +34,32 @@ public partial class SignUp : ContentPage
         {
             try
             {
-                //Create the user using Firebase authentication
-                var user = await _authClient.CreateUserWithEmailAndPasswordAsync(email, password, username);
-                StatusLabel.TextColor = Colors.Green;
-                StatusLabel.Text = "Sign up successful!";
+                //Check username 
+                _firebaseClient.Child("User").AsObservable<User>().Subscribe(
+                 (item) =>
+                 {
+                  if (item.Object != null)
+                  {
+                     Usernames.Add(item.Object);
+                  }
+                 });
+                if (!Usernames.Any(u => u.Username == username))
+                {
+                    //Create the user using Firebase authentication
+                    var user = await _authClient.CreateUserWithEmailAndPasswordAsync(email, password, username);
+                    _firebaseClient.Child("User").PostAsync(new Models.User
+                    {
+                        Username = username, // enter data 
+                    });
+                    StatusLabel.TextColor = Colors.Green;
+                    StatusLabel.Text = "Sign up successful!";
+
+                }
+                else
+                {
+                    StatusLabel.TextColor = Colors.Red;
+                    StatusLabel.Text = "User Name exists";
+                }
             }
             catch (Exception ex)
             {

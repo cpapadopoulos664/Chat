@@ -33,6 +33,7 @@ namespace Chat
             builder.Services.AddTransient<SignIn>();
             builder.Services.AddSingleton(new FirebaseClient("https://mobileapp-1556e-default-rtdb.europe-west1.firebasedatabase.app/"));
             builder.Services.AddSingleton<GroupChat>();
+            builder.Services.AddSingleton<Lobby>();
             return builder.Build();
         }
     }
