@@ -34,31 +34,29 @@ public partial class SignUp : ContentPage
         {
             try
             {
-                //Check username 
-                _firebaseClient.Child("User").AsObservable<User>().Subscribe(
-                 (item) =>
-                 {
-                  if (item.Object != null)
-                  {
-                     Usernames.Add(item.Object);
-                  }
-                 });
-                if (!Usernames.Any(u => u.Username == username))
+                // Fetch existing users from Firebase
+                var existingUsers = await _firebaseClient.Child("User")
+                                        .OnceAsync<Models.User>();
+
+                // Check if the username already exists in Firebase
+                if (!existingUsers.Any(u => u.Object.Username == username))
                 {
-                    //Create the user using Firebase authentication
+                    // Create the user using Firebase authentication
                     var user = await _authClient.CreateUserWithEmailAndPasswordAsync(email, password, username);
-                    _firebaseClient.Child("User").PostAsync(new Models.User
+
+                    // Add the new user to Firebase
+                    await _firebaseClient.Child("User").PostAsync(new Models.User
                     {
-                        Username = username, // enter data 
+                        Username = username
                     });
+
                     StatusLabel.TextColor = Colors.Green;
                     StatusLabel.Text = "Sign up successful!";
-
                 }
                 else
                 {
                     StatusLabel.TextColor = Colors.Red;
-                    StatusLabel.Text = "User Name exists";
+                    StatusLabel.Text = "Username already exists.";
                 }
             }
             catch (Exception ex)

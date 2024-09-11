@@ -3,10 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Chat.Views.Lobby"
              Title="Lobby">
-    <CollectionView x:Name="UsersCollection">
+    <CollectionView ItemsSource="{Binding Usernames}" SelectionMode="Single" SelectionChanged="OnUserSelected">
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <Label Text="{Binding Username}" />
+                <Grid ColumnSpacing="10" Padding="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label 
+                        Grid.Column="1" 
+                        Grid.Row="0" 
+                        FontAttributes="Bold" 
+                        FontSize="20"
+                        Padding="5"
+                        Text="{Binding Username}" />
+
+                    <Label 
+                        Grid.Row="1" 
+                        Grid.Column="1" 
+                        Text="{Binding Username}" />
+                </Grid>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
