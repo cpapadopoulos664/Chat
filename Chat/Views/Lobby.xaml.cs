@@ -50,4 +50,9 @@ public partial class Lobby : ContentPage
             await Shell.Current.GoToAsync(route);
         }
     }
+
+    private async void OnBackButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(Views.Navigation));
+    }
 }

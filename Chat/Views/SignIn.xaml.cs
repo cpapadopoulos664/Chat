@@ -43,7 +43,7 @@ public partial class SignIn : ContentPage
                 {
                     LoggedInUsername = null; 
                 }
-                await Shell.Current.GoToAsync(nameof(Lobby));
+                await Shell.Current.GoToAsync(nameof(Views.Navigation));
                 // Handle successful sign-in (e.g., navigate to another page)
             }
             catch (Exception ex)

@@ -12,6 +12,8 @@ namespace Chat
             Routing.RegisterRoute(nameof(SignIn), typeof(SignIn));
             Routing.RegisterRoute(nameof(GroupChat), typeof(GroupChat));
             Routing.RegisterRoute(nameof(Lobby), typeof(Lobby));
+            Routing.RegisterRoute(nameof(Views.Navigation), typeof(Views.Navigation));
+            Routing.RegisterRoute(nameof(GeneralChat), typeof(GeneralChat));
         }
     }
 }

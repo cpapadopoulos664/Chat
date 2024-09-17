@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Chat.Views.Navigation"
+             Title="Navigation">
+
+    <StackLayout Padding="20" VerticalOptions="Center">
+
+        <!-- Chat with User Button -->
+        <Button
+            x:Name="Chat"
+            Text="Chat with user"
+            Margin="0,10,0,0"
+            BackgroundColor="#6200EE"
+            TextColor="White"
+            FontAttributes="Bold"
+            HeightRequest="50"
+            Clicked="OnChat"/>
+
+        <!-- General Chat Button -->
+        <Button
+            x:Name="GeneralChat"
+            Text="General Chat"
+            Margin="0,20,0,0"
+            BackgroundColor="#007BFF"
+            TextColor="White"
+            FontAttributes="Bold"
+            HeightRequest="50"
+            Clicked="OnGeneralChat"/>
+
+    </StackLayout>
+
+</ContentPage>
