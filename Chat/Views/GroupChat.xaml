@@ -44,6 +44,11 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            <Button Text="Back" 
+        Margin="0,20,0,0" 
+        BackgroundColor="#007BFF"
+        TextColor="White"
+        Clicked="OnBackButtonClicked"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -47,7 +47,8 @@ public partial class SignUp : ContentPage
                     // Add the new user to Firebase
                     await _firebaseClient.Child("User").PostAsync(new Models.User
                     {
-                        Username = username
+                        Username = username,
+                        Email = email,
                     });
 
                     StatusLabel.TextColor = Colors.Green;

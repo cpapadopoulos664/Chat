@@ -1,14 +1,18 @@
 using Firebase.Auth;
+using Firebase.Database;
 
 namespace Chat.Views;
 
 public partial class SignIn : ContentPage
 {
     private readonly FirebaseAuthClient _authClient;
-    public SignIn(FirebaseAuthClient authClient)
+    private readonly FirebaseClient _firebaseClient;
+    public static string LoggedInUsername { get; set; }
+    public SignIn(FirebaseAuthClient authClient, FirebaseClient firebaseClient)
 	{
 		InitializeComponent();
         _authClient = authClient;
+        _firebaseClient = firebaseClient;
     }
     private async void OnSignInButtonClicked(object sender, EventArgs e)
     {
@@ -27,6 +31,18 @@ public partial class SignIn : ContentPage
                 var user = await _authClient.SignInWithEmailAndPasswordAsync(email, password);
                 StatusLabel.TextColor = Colors.Green;
                 StatusLabel.Text = "Sign in successful!";
+                // Fetch existing users from Firebase
+                var existingUsers = await _firebaseClient.Child("User")
+                                        .OnceAsync<Models.User>();
+                var foundUser = existingUsers.FirstOrDefault(u => u.Object.Email == email); // find the user name 
+                if (foundUser != null)
+                {
+                    LoggedInUsername = foundUser.Object.Username; // Access  Username 
+                }
+                else
+                {
+                    LoggedInUsername = null; 
+                }
                 await Shell.Current.GoToAsync(nameof(Lobby));
                 // Handle successful sign-in (e.g., navigate to another page)
             }

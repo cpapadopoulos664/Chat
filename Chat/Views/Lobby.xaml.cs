@@ -46,7 +46,8 @@ public partial class Lobby : ContentPage
         var selectedUser = e.CurrentSelection.FirstOrDefault() as User;
         if (selectedUser != null)
         {
-            await Shell.Current.GoToAsync(nameof(GroupChat));
+            var route = $"{nameof(GroupChat)}?loggedInUser={SignIn.LoggedInUsername}&selectedUser={selectedUser.Username}";
+            await Shell.Current.GoToAsync(route);
         }
     }
 }

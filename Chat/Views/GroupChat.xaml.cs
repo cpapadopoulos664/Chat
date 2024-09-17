@@ -6,13 +6,16 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Firebase.Auth;
 using Firebase.Auth.Providers;
+using LiteDB;
 
 namespace Chat.Views;
 
-public partial class GroupChat : ContentPage
+public partial class GroupChat : ContentPage, IQueryAttributable
 {
     private readonly FirebaseClient firebaseClient;
     private readonly string idToken;
+    private string loggedInUser;
+    private string selectedUser;
 
     public ObservableCollection<Message> Messages { get; set; } = new ObservableCollection<Message>(); // list
     public GroupChat(FirebaseClient FirebaseClient)
@@ -28,20 +31,55 @@ public partial class GroupChat : ContentPage
         await LoadData(); // gia klisi me to pou anixi h forma 
     }
 
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.ContainsKey("loggedInUser"))
+        {
+            loggedInUser = query["loggedInUser"] as string;
+        }
+
+        if (query.ContainsKey("selectedUser"))
+        {
+            selectedUser = query["selectedUser"] as string;
+        }
+    }
+
+
     private async void OnSend(object sender, EventArgs e)
     {
-        firebaseClient.Child("Message").PostAsync(new Message
+        var Id ="";
+        if (string.Compare(loggedInUser, selectedUser) > 0)
         {
-            Name = Name.Text, // enter data 
+            Id= $"{loggedInUser}_{selectedUser}";
+        }
+        else
+        {
+            Id = $"{selectedUser}_{loggedInUser}";
+        }
+        firebaseClient.Child("Message").Child(Id).PostAsync(new Message
+        {
+            Id = Id,
+            SendUser = loggedInUser,
+            ReceivedUser = selectedUser,
             Text = Text.Text,
+            Date = DateTime.Now,
         });// xriazetai na gini xrisi using firebase query gia na to dexti 
-        Name.Text = string.Empty;
         Text.Text = string.Empty;
     }
 
     public async Task LoadData()
     {
-        firebaseClient.Child("Message").AsObservable<Message>().Subscribe(
+        var Id = "";
+        if (string.Compare(loggedInUser, selectedUser) > 0)
+        {
+            Id = $"{loggedInUser}_{selectedUser}";
+        }
+        else
+        {
+            Id = $"{selectedUser}_{loggedInUser}";
+        }
+
+        firebaseClient.Child("Message").Child(Id).AsObservable<Message>().Subscribe(
             (item) =>
             {
                 if (item.Object != null)
@@ -49,5 +87,10 @@ public partial class GroupChat : ContentPage
                     Messages.Add(item.Object);
                 }
             });
+    }
+
+    private async void OnBackButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("..");
     }
 }
