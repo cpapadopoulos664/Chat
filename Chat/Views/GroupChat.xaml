@@ -5,50 +5,79 @@
              Title="GroupChat">
     <ScrollView>
         <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-            <Entry x:Name="Name" Placeholder=" enter val 1"/>
-            <Entry x:Name="Text" Placeholder=" enter val 2"/>
+            Padding="20"
+            Spacing="20">
+
+            <!-- Input Fields for Name and Message -->
+            <Entry x:Name="Text" Placeholder="Enter your message" FontSize="18"/>
+
+            <!-- Send Button -->
             <Button
                 x:Name="Send"
                 Text="Send" 
-                SemanticProperties.Hint="Counts the number of times you click"
+                SemanticProperties.Hint="Send the message"
                 Clicked="OnSend"
-                HorizontalOptions="Fill" />
-            <CollectionView ItemsSource="{Binding Messages}">
+                HorizontalOptions="Fill"
+                BackgroundColor="#6200EE"
+                TextColor="White"
+                FontAttributes="Bold"
+                HeightRequest="50"/>
+
+            <!-- Messages Collection -->
+            <CollectionView ItemsSource="{Binding Messages}"
+                            SelectionMode="None"
+                            VerticalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnSpacing="10" Padding="5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Label 
-                     Grid.Column="1" 
-                     Grid.Row="0" 
-                     FontAttributes="Bold" 
-                     FontSize = "20"
-                      Padding="5"
-                      Text="{Binding Name}" />
+                        <Frame Padding="10"
+                               Margin="0,10,0,0"
+                               CornerRadius="10"
+                               BorderColor="#D3D3D3"
+                               BackgroundColor="#F0F0F0"
+                               HasShadow="False">
+                            <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="Auto, *">
 
-                            <Label Grid.Row="1" 
-                        Grid.Column="1" 
-                        Text="{Binding Text}" />
+                                <!-- Display the Username -->
+                                <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       Text="{Binding SendUser}"
+                                       FontAttributes="Bold"
+                                       FontSize="18"
+                                       TextColor="#007BFF"
+                                       VerticalOptions="Start"/>
 
-                        </Grid>
+                                <!-- Display the Message Timestamp -->
+                                <Label Grid.Row="0"
+                                       Grid.Column="1"
+                                       Text="{Binding Date, StringFormat='{0:HH:mm}'}"
+                                       FontSize="14"
+                                       TextColor="Gray"
+                                       HorizontalOptions="End"
+                                       VerticalOptions="Start"/>
 
+                                <!-- Display the Message Text -->
+                                <Label Grid.Row="1"
+                                       Grid.ColumnSpan="2"
+                                       Text="{Binding Text}"
+                                       FontSize="20"
+                                       TextColor="Black"
+                                       VerticalOptions="StartAndExpand"
+                                       Margin="0,5,0,0"/>
+
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+            <!-- Back Button -->
             <Button Text="Back" 
-        Margin="0,20,0,0" 
-        BackgroundColor="#007BFF"
-        TextColor="White"
-        Clicked="OnBackButtonClicked"/>
+                    Margin="0,20,0,0" 
+                    BackgroundColor="#007BFF"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Clicked="OnBackButtonClicked"
+                    HeightRequest="50"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

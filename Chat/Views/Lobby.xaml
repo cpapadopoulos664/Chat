@@ -23,11 +23,6 @@
                         FontSize="20"
                         Padding="5"
                         Text="{Binding Username}" />
-
-                    <Label 
-                        Grid.Row="1" 
-                        Grid.Column="1" 
-                        Text="{Binding Username}" />
                 </Grid>
             </DataTemplate>
         </CollectionView.ItemTemplate>

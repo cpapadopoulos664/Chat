@@ -91,6 +91,6 @@ public partial class GroupChat : ContentPage, IQueryAttributable
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("..");
+        await Shell.Current.GoToAsync(nameof(Lobby));
     }
 }
