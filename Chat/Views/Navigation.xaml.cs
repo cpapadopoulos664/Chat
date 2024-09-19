@@ -16,4 +16,8 @@ public partial class Navigation : ContentPage
     {
         await Shell.Current.GoToAsync(nameof(Views.GeneralChat));
     }
+    private async void OnCamera(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(Camera));
+    }
 }

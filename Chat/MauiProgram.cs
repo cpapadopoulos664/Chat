@@ -36,6 +36,7 @@ namespace Chat
             builder.Services.AddTransient<Lobby>();
             builder.Services.AddTransient<Navigation>();
             builder.Services.AddTransient<GeneralChat>();
+            builder.Services.AddTransient<Camera>();
             return builder.Build();
         }
     }

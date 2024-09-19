@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Chat.Views.Camera"
+             Title="Camera"
+             Padding="20"
+             BackgroundColor="#F5F5F5">
+
+    <VerticalStackLayout Spacing="20">
+        <!-- Image Grid (for overlay) -->
+        <Grid>
+            <!-- Background Image -->
+            <Image x:Name="BackgroundImage"
+                   Aspect="AspectFill"
+                   BackgroundColor="#E0E0E0"
+                   HeightRequest="300"
+                   WidthRequest="300" />
+
+            <!-- Overlay Image -->
+            <Image x:Name="OverlayImage"
+                   Aspect="AspectFill"
+                   HeightRequest="300"
+                   WidthRequest="300" />
+            <!-- ResultImage -->
+            <Image x:Name="ResultImage"
+                   Aspect="AspectFill"
+                   HeightRequest="300"
+                   WidthRequest="300" />
+        </Grid>
+
+        <!-- Buttons for capturing images -->
+        <StackLayout Spacing="15">
+            <Button Text="Capture Background Image"
+                    BackgroundColor="#6200EE"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    CornerRadius="5"
+                    Clicked="OnCaptureBackgroundImage" />
+
+            <Button Text="Capture Overlay Image"
+                    BackgroundColor="#007BFF"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    CornerRadius="5"
+                    Clicked="OnCaptureOverlayImage" />
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>

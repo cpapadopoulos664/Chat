@@ -14,6 +14,7 @@ namespace Chat
             Routing.RegisterRoute(nameof(Lobby), typeof(Lobby));
             Routing.RegisterRoute(nameof(Views.Navigation), typeof(Views.Navigation));
             Routing.RegisterRoute(nameof(GeneralChat), typeof(GeneralChat));
+            Routing.RegisterRoute(nameof(Camera), typeof(Camera));
         }
     }
 }
