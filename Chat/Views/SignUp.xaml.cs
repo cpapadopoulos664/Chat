@@ -44,11 +44,14 @@ public partial class SignUp : ContentPage
                     // Create the user using Firebase authentication
                     var user = await _authClient.CreateUserWithEmailAndPasswordAsync(email, password, username);
 
+                    string uid = user.User.Uid;
+
                     // Add the new user to Firebase
                     await _firebaseClient.Child("User").PostAsync(new Models.User
                     {
                         Username = username,
                         Email = email,
+                        UID = uid,
                     });
 
                     StatusLabel.TextColor = Colors.Green;

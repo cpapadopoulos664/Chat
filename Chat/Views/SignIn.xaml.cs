@@ -8,6 +8,7 @@ public partial class SignIn : ContentPage
     private readonly FirebaseAuthClient _authClient;
     private readonly FirebaseClient _firebaseClient;
     public static string LoggedInUsername { get; set; }
+    public static string LoggedInUsernameUID { get; set; }
     public SignIn(FirebaseAuthClient authClient, FirebaseClient firebaseClient)
 	{
 		InitializeComponent();
@@ -38,10 +39,12 @@ public partial class SignIn : ContentPage
                 if (foundUser != null)
                 {
                     LoggedInUsername = foundUser.Object.Username; // Access  Username 
+                    LoggedInUsernameUID = foundUser.Object.UID;
                 }
                 else
                 {
-                    LoggedInUsername = null; 
+                    LoggedInUsername = null;
+                    LoggedInUsernameUID = null;
                 }
                 await Shell.Current.GoToAsync(nameof(Views.Navigation));
                 // Handle successful sign-in (e.g., navigate to another page)

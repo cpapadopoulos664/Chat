@@ -16,6 +16,8 @@ public partial class GroupChat : ContentPage, IQueryAttributable
     private readonly string idToken;
     private string loggedInUser;
     private string selectedUser;
+    private string loggedInUserUID;
+    private string selectedUserUID;
 
     public ObservableCollection<Message> Messages { get; set; } = new ObservableCollection<Message>(); // list
     public GroupChat(FirebaseClient FirebaseClient)
@@ -42,6 +44,16 @@ public partial class GroupChat : ContentPage, IQueryAttributable
         {
             selectedUser = query["selectedUser"] as string;
         }
+
+        if (query.ContainsKey("loggedInUserUID"))
+        {
+            loggedInUserUID = query["loggedInUserUID"] as string;
+        }
+
+        if (query.ContainsKey("selectedUserUID"))
+        {
+            selectedUserUID = query["selectedUserUID"] as string;
+        }
     }
 
 
@@ -60,7 +72,9 @@ public partial class GroupChat : ContentPage, IQueryAttributable
         {
             Id = Id,
             SendUser = loggedInUser,
+            SendUserUID = loggedInUserUID,
             ReceivedUser = selectedUser,
+            ReceivedUserUID = selectedUserUID,
             Text = Text.Text,
             Date = DateTime.Now,
         });// xriazetai na gini xrisi using firebase query gia na to dexti 

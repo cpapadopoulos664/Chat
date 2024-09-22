@@ -10,7 +10,11 @@ namespace Chat.Models
     {
         public string  Id { get; set; } 
         public string SendUser { get; set; }
+
+        public string SendUserUID { get; set; }
+
         public string ReceivedUser { get; set; }
+        public string ReceivedUserUID { get; set; }
         public DateTime Date { get; set; }
         public string Text { get; set; }
         public string imageurl { get; set; }
