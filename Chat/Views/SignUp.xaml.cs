@@ -35,7 +35,7 @@ public partial class SignUp : ContentPage
             try
             {
                 // Fetch existing users from Firebase
-                var existingUsers = await _firebaseClient.Child("User")
+                var existingUsers = await _firebaseClient.Child("UserNames")
                                         .OnceAsync<Models.User>();
 
                 // Check if the username already exists in Firebase
@@ -46,12 +46,16 @@ public partial class SignUp : ContentPage
 
                     string uid = user.User.Uid;
 
-                    // Add the new user to Firebase
-                    await _firebaseClient.Child("User").PostAsync(new Models.User
+                    // Add the new username to Firebase
+                    await _firebaseClient.Child("UserNames").Child(uid).PutAsync(new Models.User
+                    {
+                        Username = username
+                    });
+                    // Add the new username to Firebase
+                    await _firebaseClient.Child("User").Child(uid).PutAsync(new Models.User
                     {
                         Username = username,
                         Email = email,
-                        UID = uid,
                     });
 
                     StatusLabel.TextColor = Colors.Green;

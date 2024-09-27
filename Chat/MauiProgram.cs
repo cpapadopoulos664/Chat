@@ -29,9 +29,31 @@ namespace Chat
                 Providers = [new EmailProvider()]
 
             }));
+
+            builder.Services.AddSingleton<FirebaseClient>(serviceProvider =>
+            {
+                // Resolve the auth client
+                var authClient = serviceProvider.GetRequiredService<FirebaseAuthClient>();
+
+                // Fetch the ID token from the signed-in user
+                return new FirebaseClient("https://mobileapp-1556e-default-rtdb.europe-west1.firebasedatabase.app/",
+                    new FirebaseOptions
+                    {
+                        AuthTokenAsyncFactory = async () =>
+                        {
+                            // Assume user is signed in and get their ID token
+                            var currentUser = authClient.User;
+                            if (currentUser != null)
+                            {
+                                return await currentUser.GetIdTokenAsync();
+                            }
+                            return null;
+                        }
+                    });
+            });
+
             builder.Services.AddTransient<SignUp>();
             builder.Services.AddTransient<SignIn>();
-            builder.Services.AddSingleton(new FirebaseClient("https://mobileapp-1556e-default-rtdb.europe-west1.firebasedatabase.app/"));
             builder.Services.AddTransient<GroupChat>();
             builder.Services.AddTransient<Lobby>();
             builder.Services.AddTransient<Navigation>();

@@ -33,7 +33,7 @@ public partial class SignIn : ContentPage
                 StatusLabel.TextColor = Colors.Green;
                 StatusLabel.Text = "Sign in successful!";
                 // Fetch existing users from Firebase
-                var existingUsers = await _firebaseClient.Child("User")
+                var existingUsers = await _firebaseClient.Child("UserNames")
                                         .OnceAsync<Models.User>();
                 var foundUser = existingUsers.FirstOrDefault(u => u.Object.Email == email); // find the user name 
                 if (foundUser != null)
