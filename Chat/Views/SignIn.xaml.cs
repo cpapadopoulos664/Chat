@@ -1,5 +1,6 @@
 using Firebase.Auth;
 using Firebase.Database;
+using Firebase.Database.Query;
 
 namespace Chat.Views;
 
@@ -30,16 +31,22 @@ public partial class SignIn : ContentPage
             {
                 // Sign in the user using Firebase authentication
                 var user = await _authClient.SignInWithEmailAndPasswordAsync(email, password);
+                var uid = user.User.Uid;
                 StatusLabel.TextColor = Colors.Green;
                 StatusLabel.Text = "Sign in successful!";
+                //user data
+                var foundUser = await _firebaseClient
+                 .Child("User")
+                 .Child(uid)  // Query using the UID directly as the key
+                 .OnceSingleAsync<Models.User>();
                 // Fetch existing users from Firebase
-                var existingUsers = await _firebaseClient.Child("UserNames")
-                                        .OnceAsync<Models.User>();
-                var foundUser = existingUsers.FirstOrDefault(u => u.Object.Email == email); // find the user name 
+                //var existingUsers = await _firebaseClient.Child("UserNames")
+                                        //.OnceAsync<Models.User>();
+                //var foundUser = existingUsers.FirstOrDefault(u => u.Object.Email == email); // find the user name 
                 if (foundUser != null)
                 {
-                    LoggedInUsername = foundUser.Object.Username; // Access  Username 
-                    LoggedInUsernameUID = foundUser.Object.UID;
+                    LoggedInUsername = foundUser.Username; // Access  Username 
+                    LoggedInUsernameUID = uid;
                 }
                 else
                 {

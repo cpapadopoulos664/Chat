@@ -68,7 +68,7 @@ public partial class GroupChat : ContentPage, IQueryAttributable
         {
             Id = $"{selectedUser}_{loggedInUser}";
         }
-        firebaseClient.Child("Message").Child(Id).PostAsync(new Message
+        firebaseClient.Child("Message").Child(Id).PutAsync(new Message
         {
             Id = Id,
             SendUser = loggedInUser,

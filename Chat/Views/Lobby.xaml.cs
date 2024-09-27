@@ -25,14 +25,14 @@ public partial class Lobby : ContentPage
 
     public async Task LoadData()
     {
-        var users = await firebaseClient.Child("User").OnceAsync<User>();
+        var users = await firebaseClient.Child("UserNames").OnceAsync<User>();
 
         foreach (var user in users)
         {
             Usernames.Add(user.Object);
         }
 
-        firebaseClient.Child("User").AsObservable<User>().Subscribe((item) =>
+        firebaseClient.Child("UserNames").AsObservable<User>().Subscribe((item) =>
         {
             if (item.Object != null && !Usernames.Any(u => u.Username == item.Object.Username))
             {

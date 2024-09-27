@@ -46,7 +46,7 @@ public partial class SignUp : ContentPage
 
                     string uid = user.User.Uid;
 
-                    // Add the new username to Firebase
+                    // Add  username to DB
                     await _firebaseClient.Child("UserNames").Child(uid).PutAsync(new Models.User
                     {
                         Username = username
