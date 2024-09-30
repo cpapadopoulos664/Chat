@@ -36,15 +36,15 @@ public partial class GroupChat : ContentPage
     private async void OnSend(object sender, EventArgs e)
     {
         var Id ="";
-        if (string.Compare(loggedInUser, selectedUser) > 0)
+        if (string.Compare(loggedInUserUID, selectedUserUID) > 0)
         {
-            Id= $"{loggedInUser}_{selectedUser}";
+            Id= $"{loggedInUserUID}_{selectedUserUID}";
         }
         else
         {
-            Id = $"{selectedUser}_{loggedInUser}";
+            Id = $"{selectedUserUID}_{loggedInUserUID}";
         }
-        firebaseClient.Child("Chat").Child(Id).Child("Messages").PostAsync(new Message
+        firebaseClient.Child("Messages").Child(Id).PostAsync(new Message
         {
             Id = Id,
             SendUser = loggedInUser,
@@ -64,16 +64,16 @@ public partial class GroupChat : ContentPage
         loggedInUserUID = SignIn.LoggedInUsernameUID;
         selectedUserUID = Lobby.selectedUserUID;
         var Id = "";
-        if (string.Compare(loggedInUser, selectedUser) > 0)
+        if (string.Compare(loggedInUserUID, selectedUserUID) > 0)
         {
-            Id = $"{loggedInUser}_{selectedUser}";
+            Id = $"{loggedInUserUID}_{selectedUserUID}";
         }
         else
         {
-            Id = $"{selectedUser}_{loggedInUser}";
+            Id = $"{selectedUserUID}_{loggedInUserUID}";
         }
 
-        firebaseClient.Child("Chat").Child(Id).Child("Messages").AsObservable<Message>().Subscribe(
+        firebaseClient.Child("Messages").Child(Id).AsObservable<Message>().Subscribe(
             (item) =>
             {
                 if (item.Object != null)
