@@ -10,6 +10,9 @@ public partial class Lobby : ContentPage
 
     public ObservableCollection<User> Usernames { get; set; } = new ObservableCollection<User>();
 
+    public static string selectedUser { get; set; }
+    public static string selectedUserUID { get; set; }
+
     public Lobby(FirebaseClient FirebaseClient)
     {
         InitializeComponent();
@@ -43,12 +46,10 @@ public partial class Lobby : ContentPage
 
     private async void OnUserSelected(object sender, SelectionChangedEventArgs e)
     {
-        var selectedUser = e.CurrentSelection.FirstOrDefault() as User;
-        if (selectedUser != null)
-        {
-            var route = $"{nameof(GroupChat)}?loggedInUser={SignIn.LoggedInUsername}&selectedUser={selectedUser.Username}&loggedInUserUID={SignIn.LoggedInUsernameUID}&selectedUserUID={selectedUser.UID}";
-            await Shell.Current.GoToAsync(route);
-        }
+         var User = e.CurrentSelection.FirstOrDefault() as User;
+         selectedUser = User.Username;
+         selectedUserUID = User.UID;
+         await Shell.Current.GoToAsync(nameof(GroupChat));
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)

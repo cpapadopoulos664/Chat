@@ -10,7 +10,7 @@ using LiteDB;
 
 namespace Chat.Views;
 
-public partial class GroupChat : ContentPage, IQueryAttributable
+public partial class GroupChat : ContentPage
 {
     private readonly FirebaseClient firebaseClient;
     private readonly string idToken;
@@ -33,30 +33,6 @@ public partial class GroupChat : ContentPage, IQueryAttributable
         await LoadData(); // gia klisi me to pou anixi h forma 
     }
 
-    public void ApplyQueryAttributes(IDictionary<string, object> query)
-    {
-        if (query.ContainsKey("loggedInUser"))
-        {
-            loggedInUser = query["loggedInUser"] as string;
-        }
-
-        if (query.ContainsKey("selectedUser"))
-        {
-            selectedUser = query["selectedUser"] as string;
-        }
-
-        if (query.ContainsKey("loggedInUserUID"))
-        {
-            loggedInUserUID = query["loggedInUserUID"] as string;
-        }
-
-        if (query.ContainsKey("selectedUserUID"))
-        {
-            selectedUserUID = query["selectedUserUID"] as string;
-        }
-    }
-
-
     private async void OnSend(object sender, EventArgs e)
     {
         var Id ="";
@@ -68,7 +44,7 @@ public partial class GroupChat : ContentPage, IQueryAttributable
         {
             Id = $"{selectedUser}_{loggedInUser}";
         }
-        firebaseClient.Child("Message").Child(Id).PutAsync(new Message
+        firebaseClient.Child("Chat").Child(Id).Child("Messages").PostAsync(new Message
         {
             Id = Id,
             SendUser = loggedInUser,
@@ -83,6 +59,10 @@ public partial class GroupChat : ContentPage, IQueryAttributable
 
     public async Task LoadData()
     {
+        loggedInUser = SignIn.LoggedInUsername;
+        selectedUser = Lobby.selectedUser;
+        loggedInUserUID = SignIn.LoggedInUsernameUID;
+        selectedUserUID = Lobby.selectedUserUID;
         var Id = "";
         if (string.Compare(loggedInUser, selectedUser) > 0)
         {
@@ -93,7 +73,7 @@ public partial class GroupChat : ContentPage, IQueryAttributable
             Id = $"{selectedUser}_{loggedInUser}";
         }
 
-        firebaseClient.Child("Message").Child(Id).AsObservable<Message>().Subscribe(
+        firebaseClient.Child("Chat").Child(Id).Child("Messages").AsObservable<Message>().Subscribe(
             (item) =>
             {
                 if (item.Object != null)
