@@ -27,7 +27,7 @@ public partial class GeneralChat : ContentPage
 
     private async void OnSend(object sender, EventArgs e)
     {
-        firebaseClient.Child("Message").Child("Gen").PostAsync(new Message
+        firebaseClient.Child("GMessages").Child("Gen").PostAsync(new Message
         {
             Id = "Gen",
             SendUser = SignIn.LoggedInUsername,
@@ -40,11 +40,25 @@ public partial class GeneralChat : ContentPage
 
     public async Task LoadData()
     {
+        var messages = await firebaseClient
+        .Child("GMessages")
+        .Child("Gen")
+        .OrderBy("Date")
+        .OnceAsync<Message>();
 
-        firebaseClient.Child("Message").Child("Gen").AsObservable<Message>().Subscribe(
-            (item) =>
+        foreach (var message in messages)
+        {
+            Messages.Add(message.Object);
+        }
+
+        // Subscribe to real-time updates after loading the initial data
+        firebaseClient
+            .Child("GMessages")
+            .Child("Gen")
+            .AsObservable<Message>()
+            .Subscribe((item) =>
             {
-                if (item.Object != null)
+                if (item.Object != null && !Messages.Contains(item.Object))
                 {
                     Messages.Add(item.Object);
                 }

@@ -73,10 +73,25 @@ public partial class GroupChat : ContentPage
             Id = $"{selectedUserUID}_{loggedInUserUID}";
         }
 
-        firebaseClient.Child("Messages").Child(Id).AsObservable<Message>().Subscribe(
-            (item) =>
+        var messages = await firebaseClient
+        .Child("Messages")
+        .Child(Id)
+        .OrderBy("Date")
+        .OnceAsync<Message>();
+
+        foreach (var message in messages)
+        {
+            Messages.Add(message.Object);
+        }
+
+        // Subscribe to real-time updates after loading the initial data
+        firebaseClient
+            .Child("Messages")
+            .Child(Id)
+            .AsObservable<Message>()
+            .Subscribe((item) =>
             {
-                if (item.Object != null)
+                if (item.Object != null && !Messages.Contains(item.Object))
                 {
                     Messages.Add(item.Object);
                 }
