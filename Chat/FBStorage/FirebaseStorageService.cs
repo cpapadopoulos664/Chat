@@ -1,0 +1,82 @@
+﻿using Firebase.Auth;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+
+public class FirebaseStorageService
+{
+    private readonly FirebaseAuthClient _authClient;
+    private const string FirebaseStorageBaseUrl = "https://firebasestorage.googleapis.com/v0/b/mobileapp-1556e.appspot.com/o";
+
+    public FirebaseStorageService(FirebaseAuthClient authClient)
+    {
+        _authClient = authClient;
+    }
+
+    // Upload File to Firebase Storage
+    public async Task<string> UploadFileAsync(Stream fileStream, string fileName, string mimeType = "application/octet-stream")
+    {
+        var currentUser = _authClient.User;
+        if (currentUser == null)
+        {
+            throw new UnauthorizedAccessException("User is not authenticated.");
+        }
+
+        // Fetch ID token for authenticated user
+        var idToken = await currentUser.GetIdTokenAsync();
+
+        using var httpClient = new HttpClient();
+        var memoryStream = new MemoryStream();
+        await fileStream.CopyToAsync(memoryStream);
+        var fileBytes = memoryStream.ToArray();
+
+        // Ensure the file is uploaded to the /pictures directory
+        // Clean up file name and folder path
+        fileName = fileName.Trim().Trim('/'); // Ensure no leading or trailing slashes in the file name
+        string firebaseStoragePath = $"pictures/{fileName}";  // Path within 'pictures' folder
+
+        // Prepare the content as raw byte array
+        var byteContent = new ByteArrayContent(fileBytes);
+        byteContent.Headers.ContentType = new MediaTypeHeaderValue(mimeType); // Set MIME type of the file
+
+        // Add Firebase Authentication token
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
+
+        // Send POST request to upload file to the 'pictures' folder
+        var response = await httpClient.PostAsync($"{FirebaseStorageBaseUrl}?uploadType=media&name={firebaseStoragePath}", byteContent);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            dynamic result = JsonConvert.DeserializeObject(jsonResponse);
+            return result.mediaLink; // Return the download URL of the uploaded file
+        }
+
+        var errorContent = await response.Content.ReadAsStringAsync();
+        throw new Exception($"File upload to Firebase Storage failed. Error: {errorContent}");
+    }
+
+    // Download File from Firebase Storage
+    public async Task<Stream> DownloadFileAsync(string fileUrl)
+    {
+        var currentUser = _authClient.User;
+        if (currentUser == null)
+        {
+            throw new UnauthorizedAccessException("User is not authenticated.");
+        }
+
+        using var httpClient = new HttpClient();
+
+        // Fetch ID token for authenticated user
+        var idToken = await currentUser.GetIdTokenAsync();
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
+
+        var response = await httpClient.GetAsync(fileUrl);
+
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadAsStreamAsync(); // Return the downloaded file stream
+        }
+
+        throw new Exception("File download from Firebase Storage failed.");
+    }
+}

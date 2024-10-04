@@ -45,6 +45,14 @@
                     HeightRequest="50"
                     CornerRadius="5"
                     Clicked="OnCaptureOverlayImage" />
+            <!-- Back Button -->
+            <Button Text="Back" 
+                    BackgroundColor="#007BFF"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    CornerRadius="5"
+                    Clicked="OnBackButtonClicked"/>
         </StackLayout>
     </VerticalStackLayout>
 </ContentPage>

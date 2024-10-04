@@ -2,16 +2,19 @@ namespace Chat.Views;
 using SkiaSharp;
 using System.IO;
 using Microsoft.Maui.Storage;
-
+using Microsoft.Extensions.DependencyInjection;
 
 public partial class Camera : ContentPage
 {
+    private readonly FirebaseStorageService _firebaseStorageService;
     private string BackgroundImagePath;
     private string OverlayImagePath;
-    public Camera()
+    public Camera(FirebaseStorageService FirebaseStorageService)
 	{
 		InitializeComponent();
-	}
+        _firebaseStorageService = FirebaseStorageService;
+        BindingContext = this;
+    }
 
     async void OnCaptureBackgroundImage(object sender, EventArgs e)
     {
@@ -32,6 +35,9 @@ public partial class Camera : ContentPage
             OverlayImagePath = photo.FullPath;
             var overlaidImagePath = await OverlayImagesAndSaveFile(BackgroundImagePath, OverlayImagePath);
             ResultImage.Source = ImageSource.FromFile(overlaidImagePath);
+            // Upload the saved file to Firebase Storage
+            using var fileStream = File.OpenRead(overlaidImagePath);
+            var downloadUrl = await _firebaseStorageService.UploadFileAsync(fileStream, overlaidImagePath);
         }
     }
 
@@ -93,7 +99,11 @@ public partial class Camera : ContentPage
         var filePath = Path.Combine(FileSystem.CacheDirectory, uniqueFileName);
         using var stream = File.OpenWrite(filePath);
         data.SaveTo(stream);
-
         return filePath; // Return the path to the saved file
+    }
+
+    private async void OnBackButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(Views.Navigation));
     }
 }

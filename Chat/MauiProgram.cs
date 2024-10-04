@@ -52,6 +52,13 @@ namespace Chat
                     });
             });
 
+            builder.Services.AddSingleton<FirebaseStorageService>(serviceProvider =>
+            {
+                var authClient = serviceProvider.GetRequiredService<FirebaseAuthClient>();
+
+                return new FirebaseStorageService(authClient);
+            });
+
             builder.Services.AddTransient<SignUp>();
             builder.Services.AddTransient<SignIn>();
             builder.Services.AddTransient<GroupChat>();
@@ -59,6 +66,7 @@ namespace Chat
             builder.Services.AddTransient<Navigation>();
             builder.Services.AddTransient<GeneralChat>();
             builder.Services.AddTransient<Camera>();
+            builder.Services.AddTransient<Content>();
             return builder.Build();
         }
     }

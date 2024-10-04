@@ -20,4 +20,9 @@ public partial class Navigation : ContentPage
     {
         await Shell.Current.GoToAsync(nameof(Camera));
     }
+    
+    private async void OnChallenge(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(Content));
+    }
 }
