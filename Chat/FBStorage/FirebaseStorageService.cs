@@ -1,5 +1,6 @@
 ﻿using Firebase.Auth;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 
 public class FirebaseStorageService
@@ -28,11 +29,10 @@ public class FirebaseStorageService
         var memoryStream = new MemoryStream();
         await fileStream.CopyToAsync(memoryStream);
         var fileBytes = memoryStream.ToArray();
-
         // Ensure the file is uploaded to the /pictures directory
         // Clean up file name and folder path
         fileName = fileName.Trim().Trim('/'); // Ensure no leading or trailing slashes in the file name
-        string firebaseStoragePath = $"pictures/{fileName}";  // Path within 'pictures' folder
+        string firebaseStoragePath = $"pictures/{_authClient.User.Uid}/{fileName}";  // Path within 'pictures' folder
 
         // Prepare the content as raw byte array
         var byteContent = new ByteArrayContent(fileBytes);
@@ -73,7 +73,7 @@ public class FirebaseStorageService
         var response = await httpClient.GetAsync(fileUrl);
 
         if (response.IsSuccessStatusCode)
-        {
+            {
             return await response.Content.ReadAsStreamAsync(); // Return the downloaded file stream
         }
 

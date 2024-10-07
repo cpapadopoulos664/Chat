@@ -9,6 +9,7 @@ public partial class Camera : ContentPage
     private readonly FirebaseStorageService _firebaseStorageService;
     private string BackgroundImagePath;
     private string OverlayImagePath;
+    private string UniqueFileName;
     public Camera(FirebaseStorageService FirebaseStorageService)
 	{
 		InitializeComponent();
@@ -37,7 +38,7 @@ public partial class Camera : ContentPage
             ResultImage.Source = ImageSource.FromFile(overlaidImagePath);
             // Upload the saved file to Firebase Storage
             using var fileStream = File.OpenRead(overlaidImagePath);
-            var downloadUrl = await _firebaseStorageService.UploadFileAsync(fileStream, overlaidImagePath);
+            var downloadUrl = await _firebaseStorageService.UploadFileAsync(fileStream, UniqueFileName);
         }
     }
 
@@ -95,8 +96,8 @@ public partial class Camera : ContentPage
         using var data = image.Encode(SKEncodedImageFormat.Png, 100);
 
         // Save the file to cache directory
-        var uniqueFileName = $"overlaid_image_{DateTime.Now:yyyyMMddHHmmss}.png";
-        var filePath = Path.Combine(FileSystem.CacheDirectory, uniqueFileName);
+        UniqueFileName = $"overlaid_image_{DateTime.Now:yyyyMMddHHmmss}.png";
+        var filePath = Path.Combine(FileSystem.CacheDirectory, UniqueFileName);
         using var stream = File.OpenWrite(filePath);
         data.SaveTo(stream);
         return filePath; // Return the path to the saved file
