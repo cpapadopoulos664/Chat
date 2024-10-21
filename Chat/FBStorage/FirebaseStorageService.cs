@@ -66,28 +66,4 @@ public class FirebaseStorageService
         throw new Exception($"File upload to Firebase Storage failed. Error: {errorContent}");
     }
 
-    // Download File from Firebase Storage
-    public async Task<Stream> DownloadFileAsync(string fileUrl)
-    {
-        var currentUser = _authClient.User;
-        if (currentUser == null)
-        {
-            throw new UnauthorizedAccessException("User is not authenticated.");
-        }
-
-        using var httpClient = new HttpClient();
-
-        // Fetch ID token for authenticated user
-        var idToken = await currentUser.GetIdTokenAsync();
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
-
-        var response = await httpClient.GetAsync(fileUrl);
-
-        if (response.IsSuccessStatusCode)
-            {
-            return await response.Content.ReadAsStreamAsync(); // Return the downloaded file stream
-        }
-
-        throw new Exception("File download from Firebase Storage failed.");
-    }
 }
