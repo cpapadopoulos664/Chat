@@ -55,8 +55,8 @@ namespace Chat
             builder.Services.AddSingleton<FirebaseStorageService>(serviceProvider =>
             {
                 var authClient = serviceProvider.GetRequiredService<FirebaseAuthClient>();
-
-                return new FirebaseStorageService(authClient);
+                var firebaseclient = serviceProvider.GetRequiredService<FirebaseClient>();
+                return new FirebaseStorageService(authClient, firebaseclient);
             });
 
             builder.Services.AddTransient<SignUp>();
