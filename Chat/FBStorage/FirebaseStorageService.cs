@@ -1,4 +1,5 @@
 ﻿using Chat.Models;
+using Chat.Views;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Database.Query;
@@ -58,7 +59,7 @@ public class FirebaseStorageService
             {
                 PhotoUrl = RecoverPath,
                 UID = _authClient.User.Uid,
-                Username = currentUser.ToString()
+                Username = SignIn.LoggedInUsername
             });
             return result.mediaLink; // Return the download URL of the uploaded file
         }
