@@ -32,7 +32,6 @@ public partial class Content : ContentPage
         PhotoItems.Clear();
         var challenges = await firebaseClient
         .Child("Content")
-        .Child(_authClient.User.Uid)
         .OnceAsync<Challenge>();
         foreach (var challenge in challenges)
         {

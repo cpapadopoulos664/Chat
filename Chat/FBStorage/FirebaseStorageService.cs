@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using static System.Net.Mime.MediaTypeNames;
+using Microsoft.Maui.Devices.Sensors;
+
 
 public class FirebaseStorageService
 {
@@ -50,16 +52,19 @@ public class FirebaseStorageService
         // Send POST request to upload file to the 'pictures' folder
         var response = await httpClient.PostAsync($"{FirebaseStorageBaseUrl}?uploadType=media&name={firebaseStoragePath}", byteContent);
 
+        string Location = await GetGpsLocationAsync();
+
         if (response.IsSuccessStatusCode)
         {
             var jsonResponse = await response.Content.ReadAsStringAsync();
             dynamic result = JsonConvert.DeserializeObject(jsonResponse);
             var RecoverPath = $"https://firebasestorage.googleapis.com/v0/b/mobileapp-1556e.appspot.com/o/pictures%2F{_authClient.User.Uid}%2F{fileName}?alt=media&token={result.downloadTokens}";
-            _firebaseClient.Child("Content").Child(_authClient.User.Uid).PostAsync(new Challenge
+            _firebaseClient.Child("Content").PostAsync(new Challenge
             {
                 PhotoUrl = RecoverPath,
                 UID = _authClient.User.Uid,
-                Username = SignIn.LoggedInUsername
+                Username = SignIn.LoggedInUsername,
+                GPS = Location
             });
             return result.mediaLink; // Return the download URL of the uploaded file
         }
@@ -67,4 +72,39 @@ public class FirebaseStorageService
         throw new Exception($"File upload to Firebase Storage failed. Error: {errorContent}");
     }
 
+    public async Task<string> GetGpsLocationAsync()
+    {
+        try
+        {
+            var location = await Geolocation.GetLocationAsync(new GeolocationRequest
+            {
+                DesiredAccuracy = GeolocationAccuracy.Best,
+                Timeout = TimeSpan.FromSeconds(10)
+            });
+
+            if (location != null)
+            {
+                string locationString = $"Latitude: {location.Latitude}, Longitude: {location.Longitude}";
+                return locationString;
+            }
+        }
+        catch (FeatureNotSupportedException)
+        {
+            return "Location feature not supported on this device.";
+        }
+        catch (FeatureNotEnabledException)
+        {
+            return "Location services are not enabled.";
+        }
+        catch (PermissionException)
+        {
+            return "Location permission was denied.";
+        }
+        catch (Exception)
+        {
+            return "Unable to retrieve location.";
+        }
+
+        return "Location not available.";
+    }
 }

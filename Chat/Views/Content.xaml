@@ -3,44 +3,56 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Chat.Views.Content"
              Title="Content">
+    <ScrollView>
+    <VerticalStackLayout
+    Padding="20"
+    Spacing="20">
     <Grid Padding="10">
         <!-- CollectionView that binds to the PhotoItems in the code-behind -->
-        <CollectionView ItemsSource="{Binding PhotoItems}" SelectionMode="None" VerticalScrollBarVisibility="Always">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="3" VerticalItemSpacing="10" HorizontalItemSpacing="10" />
-            </CollectionView.ItemsLayout>
+            <CollectionView ItemsSource="{Binding PhotoItems}" SelectionMode="None" VerticalScrollBarVisibility="Always">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="3" VerticalItemSpacing="10" HorizontalItemSpacing="10" />
+                </CollectionView.ItemsLayout>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame Padding="5" BorderColor="Black" CornerRadius="5" HasShadow="False">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="2*" />
-                                <!-- For photo -->
-                                <RowDefinition Height="Auto" />
-                                <!-- For info -->
-                            </Grid.RowDefinitions>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="5" BorderColor="Black" CornerRadius="5" HasShadow="False">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*" />
+                                    <!-- For photo -->
+                                    <RowDefinition Height="Auto" />
+                                    <!-- For info -->
+                                </Grid.RowDefinitions>
 
-                            <!-- Display Image -->
-                            <Image Grid.Row="0" 
+                                <!-- Display Image -->
+                                <Image Grid.Row="0" 
                                    Source="{Binding PhotoUrl}" 
                                    Aspect="AspectFill" 
                                    HeightRequest="100" 
                                    WidthRequest="100" />
 
-                            <!-- Display Info (e.g., Name) -->
-                            <Label Grid.Row="1" 
-                                   Text="{Binding InfoText}" 
+                                <!-- Display Info (e.g., Name) -->
+                                <Label Grid.Row="1" 
+                                   Text="{Binding Username}" 
                                    FontAttributes="Bold" 
-                                   HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Start"
+                                   VerticalTextAlignment="Start"
                                    FontSize="16"
                                    Padding="5" />
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                                <Label Grid.Row="2" 
+                                   Text="{Binding GPS}" 
+                                   FontAttributes="Bold" 
+                                   HorizontalTextAlignment="End"
+                                   VerticalTextAlignment="End"
+                                   FontSize="16"
+                                   Padding="5" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
         <!-- Back Button -->
         <Button Text="Back" 
          Margin="0,20,0,0" 
@@ -49,5 +61,6 @@
          FontAttributes="Bold"
          Clicked="OnBackButtonClicked"
          HeightRequest="50"/>
-    </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

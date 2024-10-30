@@ -12,6 +12,7 @@ namespace Chat.Models
         public string InfoText { get; set; }
         public string UID { get; set; }
         public string Username { get; set; }
+        public string GPS { get; set; } 
 
     }
 }

@@ -32,5 +32,9 @@
 	<string>App requires camera access to take pictures.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App requires photo library access to save pictures.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app requires location access to provide GPS functionality.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app requires location access to provide GPS functionality.</string>
 </dict>
 </plist>
