@@ -67,6 +67,7 @@ namespace Chat
             builder.Services.AddTransient<GeneralChat>();
             builder.Services.AddTransient<Camera>();
             builder.Services.AddTransient<Content>();
+            builder.Services.AddTransient<Details>();
             return builder.Build();
         }
     }

@@ -9,7 +9,7 @@
     Spacing="20">
     <Grid Padding="10">
         <!-- CollectionView that binds to the PhotoItems in the code-behind -->
-            <CollectionView ItemsSource="{Binding PhotoItems}" SelectionMode="None" VerticalScrollBarVisibility="Always">
+                <CollectionView ItemsSource="{Binding PhotoItems}" SelectionMode="Single" SelectionChanged="OnPhotoSelected" VerticalScrollBarVisibility="Always">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="3" VerticalItemSpacing="10" HorizontalItemSpacing="10" />
                 </CollectionView.ItemsLayout>
