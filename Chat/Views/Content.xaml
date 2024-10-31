@@ -16,7 +16,7 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Padding="5" BorderColor="Black" CornerRadius="5" HasShadow="False">
+                        
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="2*" />
@@ -48,7 +48,7 @@
                                    FontSize="16"
                                    Padding="5" />
                             </Grid>
-                        </Frame>
+                       
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
