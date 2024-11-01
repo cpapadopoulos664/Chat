@@ -3,34 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Chat.Views.Details"
              Title="Details">
-     <StackLayout Padding="20" Spacing="20">
-        
-        <!-- Photo Section with Data Binding -->
-        
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+
+            <!-- Photo Section with Data Binding -->
+
             <Image Source="{Binding PhotoUrl}"
                    Aspect="AspectFit"
                    HeightRequest="500" 
                    WidthRequest="500"
                    VerticalOptions="Center"
                    HorizontalOptions="Center" />
-        
 
-        <!-- Map Section -->
-        <Frame BorderColor="Black" CornerRadius="0" Padding="0" HeightRequest="200">
-            <Label Text="THE MAP GOES HERE"
+
+            <!-- Map Section -->
+            <Frame BorderColor="Black" CornerRadius="0" Padding="0" HeightRequest="200">
+                <Label Text="THE MAP GOES HERE"
                    VerticalOptions="Center"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
                    VerticalTextAlignment="Center"
                    FontAttributes="Bold" />
-        </Frame>
-        <!-- Back Button -->
-        <Button Text="Back" 
+            </Frame>
+            <!-- Back Button -->
+            <Button Text="Back" 
           Margin="0,20,0,0" 
           BackgroundColor="#007BFF"
           TextColor="White"
           FontAttributes="Bold"
           Clicked="OnBackButtonClicked"
           HeightRequest="50"/>
-    </StackLayout>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

@@ -15,7 +15,7 @@ public partial class Details : ContentPage
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(Views.Navigation));
+        await Shell.Current.GoToAsync(nameof(Views.Content));
     }
 
 
