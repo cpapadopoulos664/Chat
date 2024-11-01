@@ -29,8 +29,8 @@
                                 <Image Grid.Row="0" 
                                    Source="{Binding PhotoUrl}" 
                                    Aspect="AspectFill" 
-                                   HeightRequest="100" 
-                                   WidthRequest="100" />
+                                   HeightRequest="200" 
+                                   WidthRequest="200" />
 
                                 <!-- Display Info (e.g., Name) -->
                                 <Label Grid.Row="1" 

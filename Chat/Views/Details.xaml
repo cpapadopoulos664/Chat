@@ -9,8 +9,8 @@
         
             <Image Source="{Binding PhotoUrl}"
                    Aspect="AspectFit"
-                   HeightRequest="100" 
-                   WidthRequest="100"
+                   HeightRequest="500" 
+                   WidthRequest="500"
                    VerticalOptions="Center"
                    HorizontalOptions="Center" />
         
