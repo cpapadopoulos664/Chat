@@ -7,32 +7,28 @@
         <StackLayout Padding="20" Spacing="20">
 
             <!-- Photo Section with Data Binding -->
-
             <Image Source="{Binding PhotoUrl}"
                    Aspect="AspectFit"
-                   HeightRequest="500" 
+                   HeightRequest="500"
                    WidthRequest="500"
                    VerticalOptions="Center"
                    HorizontalOptions="Center" />
 
-
-            <!-- Map Section -->
-            <Frame BorderColor="Black" CornerRadius="0" Padding="0" HeightRequest="200">
-                <Label Text="THE MAP GOES HERE"
-                   VerticalOptions="Center"
-                   HorizontalOptions="Center"
-                   HorizontalTextAlignment="Center"
-                   VerticalTextAlignment="Center"
-                   FontAttributes="Bold" />
+            <!-- Map Section with a WebView -->
+            <Frame BorderColor="Black" CornerRadius="5" Padding="0" HeightRequest="300">
+                <WebView x:Name="MapWebView"
+                         VerticalOptions="FillAndExpand"
+                         HorizontalOptions="FillAndExpand" />
             </Frame>
+
             <!-- Back Button -->
-            <Button Text="Back" 
-          Margin="0,20,0,0" 
-          BackgroundColor="#007BFF"
-          TextColor="White"
-          FontAttributes="Bold"
-          Clicked="OnBackButtonClicked"
-          HeightRequest="50"/>
+            <Button Text="Back"
+                    Margin="0,20,0,0"
+                    BackgroundColor="#007BFF"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Clicked="OnBackButtonClicked"
+                    HeightRequest="50" />
         </StackLayout>
     </ScrollView>
 </ContentPage>
