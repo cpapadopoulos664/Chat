@@ -14,31 +14,11 @@ namespace Chat.Views
             InitializeComponent();
             PhotoUrl = Views.Content.PhotoUrl;
             BindingContext = this;
-            // Load the map HTML file into the WebView
-            LoadMap();
         }
 
-
-
-        private void LoadMap()
+        private async void OnMapButtonClicked(object sender, EventArgs e)
         {
-            // Adjust the resource name if necessary
-            string htmlFileName = "Chat.Resources.Map.Map.html";
-            var assembly = typeof(Details).GetTypeInfo().Assembly;
-
-            using (Stream stream = assembly.GetManifestResourceStream(htmlFileName))
-            {
-                if (stream == null)
-                {
-                    throw new FileNotFoundException("HTML resource not found: " + htmlFileName);
-                }
-
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    string htmlContent = reader.ReadToEnd();
-                    MapWebView.Source = new HtmlWebViewSource { Html = htmlContent };
-                }
-            }
+            await Shell.Current.GoToAsync(nameof(Map));
         }
 
         private async void OnBackButtonClicked(object sender, EventArgs e)

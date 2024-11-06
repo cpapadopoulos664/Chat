@@ -15,11 +15,15 @@
                    HorizontalOptions="Center" />
 
             <!-- Map Section with a WebView -->
-            <Frame BorderColor="Black" CornerRadius="5" Padding="0" HeightRequest="300">
-                <WebView x:Name="MapWebView"
-                         VerticalOptions="FillAndExpand"
-                         HorizontalOptions="FillAndExpand" />
-            </Frame>
+            <Button Text="Map"
+             Margin="0,20,0,0"
+             BackgroundColor="#007BFF"
+             TextColor="White"
+             FontAttributes="Bold"
+             Clicked="OnMapButtonClicked"
+             HeightRequest="50" />
+            
+         
 
             <!-- Back Button -->
             <Button Text="Back"
