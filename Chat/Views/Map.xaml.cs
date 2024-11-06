@@ -41,4 +41,9 @@ public partial class Map : ContentPage
 
         MapWebView.Source = new HtmlWebViewSource { Html = htmlContent };
     }
+
+    private async void OnBackButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(Details));
+    }
 }
