@@ -4,16 +4,18 @@
              x:Class="Chat.Views.Map"
              Title="Map">
     <StackLayout Padding="20" Spacing="20">
-    <WebView x:Name="MapWebView"
-          VerticalOptions="FillAndExpand"
-          HorizontalOptions="FillAndExpand" />
-    <!-- Back Button -->
-    <Button Text="Back"
-         Margin="0,20,0,0"
-         BackgroundColor="#007BFF"
-         TextColor="White"
-         FontAttributes="Bold"
-         Clicked="OnBackButtonClicked"
-         HeightRequest="50" />
+        <!-- WebView to display the map -->
+        <WebView x:Name="MapWebView"
+                 VerticalOptions="FillAndExpand"
+                 HorizontalOptions="FillAndExpand" />
+
+        <!-- Back Button -->
+        <Button Text="Back"
+                Margin="0,20,0,0"
+                BackgroundColor="#007BFF"
+                TextColor="White"
+                FontAttributes="Bold"
+                Clicked="OnBackButtonClicked"
+                HeightRequest="50" />
     </StackLayout>
 </ContentPage>
