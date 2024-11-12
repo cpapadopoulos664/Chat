@@ -51,8 +51,7 @@ public partial class ChallengesOnMap : ContentPage
             Centerlongitude = Convert.ToDouble(longitude) + Centerlongitude;
             count = count + 1;
             HtmlPoint = $@" var marker{count} =  L.marker([{latitude}, {longitude}]).addTo(map)
-                    .bindPopup('Point{count}')
-                    .openPopup();";
+                    .bindPopup('<div><h3>Point {count}</h3><img src=\""{Data.PhotoUrl}\"" alt=\""Point {{count}}\"" width=\""150\"" /></div>');";
             HtmlPoints = HtmlPoint + "\n" + HtmlPoints;
         }
 
