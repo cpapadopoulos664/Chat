@@ -69,6 +69,7 @@ namespace Chat
             builder.Services.AddTransient<Content>();
             builder.Services.AddTransient<Details>();
             builder.Services.AddTransient<Views.Map>();
+            builder.Services.AddTransient<ChallengesOnMap>();
             return builder.Build();
         }
     }

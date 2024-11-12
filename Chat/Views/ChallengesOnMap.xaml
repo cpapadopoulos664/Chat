@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Chat.Views.ChallengesOnMap"
+             Title="ChallengesOnMap">
+    <StackLayout Padding="20" Spacing="20">
+        <!-- WebView to display the map -->
+        <WebView x:Name="MapWebView"
+              VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand" />
+
+        <!-- Back Button -->
+        <Button Text="Back"
+             Margin="0,20,0,0"
+             BackgroundColor="#007BFF"
+             TextColor="White"
+             FontAttributes="Bold"
+             Clicked="OnBackButtonClicked"
+             HeightRequest="50" />
+    </StackLayout>
+</ContentPage>

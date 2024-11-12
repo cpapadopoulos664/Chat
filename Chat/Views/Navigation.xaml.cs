@@ -25,4 +25,8 @@ public partial class Navigation : ContentPage
     {
         await Shell.Current.GoToAsync(nameof(Content));
     }
+    private async void OnChallengeMap(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(ChallengesOnMap));
+    }
 }
