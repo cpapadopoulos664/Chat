@@ -47,34 +47,17 @@ public partial class ChallengesOnMap : ContentPage
             string[] gpsCoordinates = cleanedGPS.Split(',');
             string latitude = gpsCoordinates[0].Trim();
             string longitude = gpsCoordinates[1].Trim();
-            Centerlatitude = 37;
-            Centerlongitude = -127;
+            Centerlatitude = Convert.ToDouble(latitude) + Centerlatitude;
+            Centerlongitude = Convert.ToDouble(longitude) + Centerlongitude;
             count = count + 1;
-            if (count==2)
-            {
-                 HtmlPoint = $@" 
-                 var marker{count} = L.marker([{37}, {-122}]).addTo(map)
-                 .bindPopup('Point{count}')
-                 .openPopup();";
-            }
-            if (count == 3)
-            {
-                HtmlPoint = $@" 
-                 var marker{count} = L.marker([{36}, {-127}]).addTo(map)
-                 .bindPopup('Point{count}')
-                 .openPopup();";
-            }
-            if (count == 1)
-            {
-                HtmlPoint = $@" var marker{count} =  L.marker([{40}, {-129}]).addTo(map)
+            HtmlPoint = $@" var marker{count} =  L.marker([{latitude}, {longitude}]).addTo(map)
                     .bindPopup('Point{count}')
                     .openPopup();";
-            }
-           
             HtmlPoints = HtmlPoint + "\n" + HtmlPoints;
         }
 
-
+        Centerlatitude = Centerlatitude / count;
+        Centerlongitude = Centerlongitude / count;
 
 
         string htmlContent = $@"
