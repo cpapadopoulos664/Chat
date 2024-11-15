@@ -2,6 +2,8 @@ using Chat.Models;
 using Firebase.Database;
 using Firebase.Database.Query;
 using System.Collections.ObjectModel;
+using System.Globalization;
+
 
 namespace Chat.Views;
 
@@ -35,7 +37,6 @@ public partial class ChallengesOnMap : ContentPage
         }
 
         int count = 0;
-        var off = 0;
         string HtmlPoints = string.Empty;
         string HtmlPoint = string.Empty;
         var Centerlatitude =0.0;
@@ -47,8 +48,8 @@ public partial class ChallengesOnMap : ContentPage
             string[] gpsCoordinates = cleanedGPS.Split(',');
             string latitude = gpsCoordinates[0].Trim();
             string longitude = gpsCoordinates[1].Trim();
-            Centerlatitude = Convert.ToDouble(latitude) + Centerlatitude;
-            Centerlongitude = Convert.ToDouble(longitude) + Centerlongitude;
+            Centerlatitude = Convert.ToDouble(latitude, CultureInfo.InvariantCulture) + Centerlatitude;
+            Centerlongitude = Convert.ToDouble(longitude, CultureInfo.InvariantCulture) + Centerlongitude;
             count = count + 1;
             HtmlPoint = $@" var marker{count} =  L.marker([{latitude}, {longitude}]).addTo(map)
                     .bindPopup('<div><h3>Point {count}</h3><img src=\""{Data.PhotoUrl}\"" alt=\""Point {{count}}\"" width=\""150\"" /></div>');";
@@ -58,6 +59,8 @@ public partial class ChallengesOnMap : ContentPage
         Centerlatitude = Centerlatitude / count;
         Centerlongitude = Centerlongitude / count;
 
+        string centerLatitudeStr = Centerlatitude.ToString(CultureInfo.InvariantCulture);
+        string centerLongitudeStr = Centerlongitude.ToString(CultureInfo.InvariantCulture);
 
         string htmlContent = $@"
 <!DOCTYPE html>
@@ -81,7 +84,7 @@ public partial class ChallengesOnMap : ContentPage
         document.addEventListener('DOMContentLoaded', function () {{
             try {{
                 // Initialize the map and set the view to the GPS coordinates
-                var map = L.map('map').setView([{Centerlatitude}, {Centerlongitude}], 5);
+                var map = L.map('map').setView([{centerLatitudeStr}, {centerLongitudeStr}], 5);
                 L.tileLayer('https://tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {{
                     maxZoom: 19,
                     attribution: '© OpenStreetMap contributors'
@@ -95,7 +98,7 @@ public partial class ChallengesOnMap : ContentPage
 </body>
 </html>";
 
-        // Set the WebView's source to the generated HTML content
+
         MapWebView.Source = new HtmlWebViewSource { Html = htmlContent };
     }
         private async void OnBackButtonClicked(object sender, EventArgs e)
