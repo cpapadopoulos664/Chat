@@ -30,7 +30,6 @@ public class FirebaseStorageService
         {
             throw new UnauthorizedAccessException("User is not authenticated.");
         }
-
         // Fetch ID token for authenticated user
         var idToken = await currentUser.GetIdTokenAsync();
 
@@ -53,19 +52,39 @@ public class FirebaseStorageService
         var response = await httpClient.PostAsync($"{FirebaseStorageBaseUrl}?uploadType=media&name={firebaseStoragePath}", byteContent);
 
         string Location = await GetGpsLocationAsync();
-
+        string type;
         if (response.IsSuccessStatusCode)
         {
             var jsonResponse = await response.Content.ReadAsStringAsync();
             dynamic result = JsonConvert.DeserializeObject(jsonResponse);
             var RecoverPath = $"https://firebasestorage.googleapis.com/v0/b/mobileapp-1556e.appspot.com/o/pictures%2F{_authClient.User.Uid}%2F{fileName}?alt=media&token={result.downloadTokens}";
-            _firebaseClient.Child("Content").PostAsync(new Challenge
+
+            if (Details.Type is not null)
             {
-                PhotoUrl = RecoverPath,
-                UID = _authClient.User.Uid,
-                Username = SignIn.LoggedInUsername,
-                GPS = Location
-            });
+                type = Details.Type;
+                Details.Type = null;
+                _firebaseClient.Child("Responce").PostAsync(new Challenge
+                {
+                    PhotoUrl = RecoverPath,
+                    UID = _authClient.User.Uid,
+                    Username = SignIn.LoggedInUsername,
+                    GPS = Location,
+                    Type = type,
+                    Link = Details.Link
+                });
+            }
+            else
+            {
+                type = "Challenge";
+                _firebaseClient.Child("Content").PostAsync(new Challenge
+                {
+                    PhotoUrl = RecoverPath,
+                    UID = _authClient.User.Uid,
+                    Username = SignIn.LoggedInUsername,
+                    GPS = Location,
+                    Type = type
+                });
+            }
             return result.mediaLink; // Return the download URL of the uploaded file
         }
         var errorContent = await response.Content.ReadAsStringAsync();

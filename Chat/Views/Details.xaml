@@ -14,6 +14,15 @@
                    VerticalOptions="Center"
                    HorizontalOptions="Center" />
 
+            <!-- sovle-->
+            <Button Text="Sovle"
+             Margin="0,20,0,0"
+             BackgroundColor="#007BFF"
+             TextColor="White"
+             FontAttributes="Bold"
+             Clicked="OnSolve"
+             HeightRequest="50" />
+
             <!-- Map Section with a WebView -->
             <Button Text="Map"
              Margin="0,20,0,0"

@@ -1,21 +1,47 @@
-using Microsoft.Maui.Controls; // Ensure you have the right namespace
-using System.Reflection; // To access embedded resources
-using System.IO; // For Stream and StreamReader
-using System.Diagnostics; // For debugging purposes
+using Firebase.Database;
+using Chat.Models;
+using System.Collections.ObjectModel;
+using Firebase.Database.Query; // For debugging purposes
 
 namespace Chat.Views
 {
     public partial class Details : ContentPage
     {
-        public string PhotoUrl { get; set; }
+        private readonly FirebaseClient firebaseClient;
 
-        public Details()
+        public ObservableCollection<Challenge> PhotoItems { get; set; } = new ObservableCollection<Challenge>();
+        public  string PhotoUrl { get; set; }
+        public static string Type { get; set; }
+        public static string Link { get; set; }
+        public Details(FirebaseClient FirebaseClient)
         {
             InitializeComponent();
             PhotoUrl = Views.Content.PhotoUrl;
+            Link = PhotoUrl;
             BindingContext = this;
+            firebaseClient = FirebaseClient;
+            LoadData();
         }
 
+        public async Task LoadData()
+        {
+            // Add data to the ObservableCollection
+            PhotoItems.Clear();
+            var challenges = await firebaseClient
+              .Child("Responce")
+              .OrderBy("Link")
+              .EqualTo(PhotoUrl) // Replace specificPhotoUrl with your desired value
+              .OnceAsync<Challenge>();
+            foreach (var challenge in challenges)
+            {
+                PhotoItems.Add(challenge.Object);
+            }
+        }
+        private async void OnSolve(object sender, EventArgs e)
+        {
+            Type = "Responce";
+            await Shell.Current.GoToAsync(nameof(Camera));
+        }
         private async void OnMapButtonClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync(nameof(Map));
