@@ -5,43 +5,74 @@
              Title="Details">
     <ScrollView>
         <StackLayout Padding="20" Spacing="20">
-
-            <!-- Photo Section with Data Binding -->
+            <!-- Existing Image and Buttons -->
             <Image Source="{Binding PhotoUrl}"
-                   Aspect="AspectFit"
-                   HeightRequest="500"
-                   WidthRequest="500"
-                   VerticalOptions="Center"
-                   HorizontalOptions="Center" />
+               Aspect="AspectFit"
+               HeightRequest="500"
+               WidthRequest="500"
+               VerticalOptions="Center"
+               HorizontalOptions="Center" />
 
-            <!-- sovle-->
-            <Button Text="Sovle"
-             Margin="0,20,0,0"
-             BackgroundColor="#007BFF"
-             TextColor="White"
-             FontAttributes="Bold"
-             Clicked="OnSolve"
-             HeightRequest="50" />
+            <Button Text="Solve"
+                Margin="0,20,0,0"
+                BackgroundColor="#007BFF"
+                TextColor="White"
+                FontAttributes="Bold"
+                Clicked="OnSolve"
+                HeightRequest="50" />
 
-            <!-- Map Section with a WebView -->
             <Button Text="Map"
-             Margin="0,20,0,0"
-             BackgroundColor="#007BFF"
-             TextColor="White"
-             FontAttributes="Bold"
-             Clicked="OnMapButtonClicked"
-             HeightRequest="50" />
-            
-         
+                Margin="0,20,0,0"
+                BackgroundColor="#007BFF"
+                TextColor="White"
+                FontAttributes="Bold"
+                Clicked="OnMapButtonClicked"
+                HeightRequest="50" />
 
-            <!-- Back Button -->
             <Button Text="Back"
-                    Margin="0,20,0,0"
-                    BackgroundColor="#007BFF"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    Clicked="OnBackButtonClicked"
-                    HeightRequest="50" />
+                Margin="0,20,0,0"
+                BackgroundColor="#007BFF"
+                TextColor="White"
+                FontAttributes="Bold"
+                Clicked="OnBackButtonClicked"
+                HeightRequest="50" />
+
+            <!-- New CollectionView Section -->
+            <CollectionView ItemsSource="{Binding PhotoItems}" 
+                        SelectionMode="Single" 
+                        VerticalScrollBarVisibility="Always">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" 
+                                 Span="3" 
+                                 VerticalItemSpacing="10" 
+                                 HorizontalItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Image Grid.Row="0" 
+                               Source="{Binding PhotoUrl}" 
+                               Aspect="AspectFill" 
+                               HeightRequest="200" 
+                               WidthRequest="200" />
+
+                            <Label Grid.Row="1" 
+                               Text="{Binding Username}" 
+                               FontAttributes="Bold" 
+                               HorizontalTextAlignment="Start"
+                               VerticalTextAlignment="Start"
+                               FontSize="16"
+                               Padding="5" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </StackLayout>
     </ScrollView>
 </ContentPage>

@@ -27,15 +27,29 @@ namespace Chat.Views
         {
             // Add data to the ObservableCollection
             PhotoItems.Clear();
-            var challenges = await firebaseClient
-              .Child("Responce")
-              .OrderBy("Link")
-              .EqualTo(PhotoUrl) // Replace specificPhotoUrl with your desired value
-              .OnceAsync<Challenge>();
-            foreach (var challenge in challenges)
+            try
             {
-                PhotoItems.Add(challenge.Object);
+                var challenges = await firebaseClient
+                                .Child("Responce")
+                                .OnceAsync<Challenge>();
+
+
+
+                foreach (var challenge in challenges)
+                {
+                    if (challenge.Object.Link == Link)
+                    {
+                        PhotoItems.Add(challenge.Object);
+                    }
+                }
+
             }
+            catch (Exception ex) 
+            {
+                // Log or handle exception
+                Console.WriteLine($"Error retrieving photo: {ex.Message}");
+            }
+           
         }
         private async void OnSolve(object sender, EventArgs e)
         {
