@@ -8,21 +8,6 @@
         Padding="20"
         Spacing="20">
 
-            <!-- Input Fields for Name and Message -->
-            <Entry x:Name="Text" Placeholder="Enter your message" FontSize="18"/>
-
-            <!-- Send Button -->
-            <Button
-            x:Name="Send"
-            Text="Send" 
-            SemanticProperties.Hint="Send the message"
-            Clicked="OnSend"
-            HorizontalOptions="Fill"
-            BackgroundColor="#6200EE"
-            TextColor="White"
-            FontAttributes="Bold"
-            HeightRequest="50"/>
-
             <!-- Messages Collection -->
             <CollectionView ItemsSource="{Binding Messages}"
                         SelectionMode="None"
@@ -69,6 +54,22 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+            <!-- Input Fields for Name and Message -->
+            <Entry x:Name="Text" Placeholder="Enter your message" FontSize="18"/>
+
+            <!-- Send Button -->
+            <Button
+             x:Name="Send"
+             Text="Send" 
+             SemanticProperties.Hint="Send the message"
+             Clicked="OnSend"
+             HorizontalOptions="Fill"
+             BackgroundColor="#6200EE"
+             TextColor="White"
+             FontAttributes="Bold"
+             HeightRequest="50"/>
+
 
             <!-- Back Button -->
             <Button Text="Back" 
